@@ -1,0 +1,14 @@
+@startuml OAuth 2.0 Abstract Protocol Flow
+autonumber
+participant Client as C
+actor "Resource \nOwner" as RO
+participant "Authorization \nServer" as AS
+participant "Resource \nServer" as RS
+
+C -> RO: Authorization Request
+RO -> C: Authorization Grant
+C -> AS: Authorization Grant
+AS -> C: Access Token
+C -> RS: Access Token
+RS -> C: Protected Resource
+@enduml

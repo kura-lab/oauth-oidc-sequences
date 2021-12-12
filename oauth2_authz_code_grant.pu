@@ -1,0 +1,23 @@
+@startuml OAuth 2.0 Authorization Code Grant
+autonumber
+actor "Resource\nOwner" as RO
+participant Client as C
+participant "User-Agent" as UA
+participant "Authorization\nServer" as AS
+participant "Resource\nServer" as RS
+
+RO -> C:
+C -> UA: Authorization Request\nClient Identifier & Redirection URI\n& State
+UA -> AS:
+AS -> UA: User authenticates & grants
+UA -> RO:
+RO -> UA:
+UA -> AS:
+AS -> UA: Authorization Code & State
+UA -> C:
+C -> C: Validates State
+C -> AS: Access Token Request\nAuthorization Code & Redirection URI
+AS -> C: Access Token
+C -> RS: Protected Resource Request\nAccess Token
+RS -> C: Protected Resource
+@enduml

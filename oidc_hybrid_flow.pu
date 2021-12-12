@@ -1,0 +1,45 @@
+@startuml OpenID Connect Hybrid Flow with Refresh Token
+autonumber
+actor "End-User" as EU
+participant Client as C
+participant "User-Agent" as UA
+participant "Authorization\nServer" as AS
+participant "Resource Server\nUserInfo Endpoint" as RS
+
+EU -> C:
+C -> UA: Authentication Request\nState & Nonce
+UA -> AS:
+AS -> UA: Authenticates End-User
+UA -> EU:
+EU -> UA:
+UA -> AS:
+AS -> UA: Obtains End-User Consent/Authorization
+UA -> EU:
+EU -> UA:
+UA -> AS:
+AS -> UA: Authorization Code & State & ID Token
+UA -> C:
+C -> C: Validates State
+C -> C: Validates ID Token(c_hash, Nonce)
+C -> AS: Access Token Request\nAuthorization Code
+AS -> C: ID Token & Access Token & Refresh Token
+C -> C: Validates ID Token &\nretrieves End-User's\nSubject Identifier
+
+alt Valid Access Token
+C -> RS: UserInfo Request\nAccess Token
+RS -> C: UserInfo Response
+
+else Refreshing an Expired Access Token
+C -> RS: UserInfo Request\nAccess Token
+RS -> C: Invalid Token Error
+C -> AS: New Access Token Request\nRefresh Token
+AS -> C: Access Token & Optional Refresh Token & Optional ID Token
+
+alt if an ID Token is returned
+C -> C: Validates ID Token
+end
+
+C -> RS: UserInfo Request\nAccess Token
+RS -> C: UserInfo Response
+end
+@enduml

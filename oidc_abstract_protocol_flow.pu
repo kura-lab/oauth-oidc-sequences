@@ -1,0 +1,13 @@
+@startuml OpenID Connect Abstract Protocol Flow
+autonumber
+participant "RP\n(Client)" as RP
+actor "End-User" as EU
+participant "OP\n(OpenID Provider)" as OP
+
+RP -> OP: Authentication Request
+OP -> EU: Authentication & Authorization
+EU -> OP:
+OP -> RP: Authentication Response
+RP -> OP: UserInfo Request
+OP -> RP: UserInfo Response
+@enduml

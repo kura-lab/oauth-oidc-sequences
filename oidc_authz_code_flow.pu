@@ -1,0 +1,28 @@
+@startuml OpenID Connect Authorization Code Flow
+autonumber
+actor "End-User" as EU
+participant Client as C
+participant "User-Agent" as UA
+participant "Authorization\nServer" as AS
+participant "Resource Server\nUserInfo Endpoint" as RS
+
+EU -> C:
+C -> UA: Authentication Request\nState & Nonce
+UA -> AS:
+AS -> UA: Authenticates End-User
+UA -> EU:
+EU -> UA:
+UA -> AS:
+AS -> UA: Obtains End-User Consent/Authorization
+UA -> EU:
+EU -> UA:
+UA -> AS:
+AS -> UA: Authorization Code & State
+UA -> C:
+C -> C: Validates State
+C -> AS: Access Token Request\nAuthorization Code
+AS -> C: ID Token & Access Token
+C -> C: Validates ID Token(Nonce)\n& retrieves End-User's\nSubject Identifier
+C -> RS: UserInfo Request\nAccess Token
+RS -> C: UserInfo Response
+@enduml
